@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Batch Record Configuration</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #003366;
+      color: white;
+      padding: 20px;
+    }
+    .sidebar h2 {
+      margin-top: 0;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar li {
+      margin: 15px 0;
+      cursor: pointer;
+    }
+    .sidebar li:hover {
+      text-decoration: underline;
+    }
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+    }
+    .main-content h1 {
+      color: #003366;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+    th {
+      background-color: #004a99;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>To Do List</h2>
+    <ul>
+     <a href="CreatenewBR.html"> <li>Configure new Batch Record</li> </a> 
+      <li>Define Materials</li>
+      <li>Assign Workflows</li>
+      <li>Review Batch Records</li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <h1>Batch Record Configuration</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Step No</th>
+          <th>Activity</th>
+          <th>Department</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>001</td>
+          <td>Mixing</td>
+          <td>Production</td>
+          <td>Pending</td>
+        </tr>
+        <tr>
+          <td>002</td>
+          <td>Sampling</td>
+          <td>Quality Control</td>
+          <td>Completed</td>
+        </tr>
+        <tr>
+          <td>003</td>
+          <td>Packing</td>
+          <td>Packaging</td>
+          <td>In Progress</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+</body>
+</html>

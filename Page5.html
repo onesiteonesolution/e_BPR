@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Instruction Builder</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      overflow: hidden;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 60px;
+      width: 100%;
+      background-color: #1976d2;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      height: 40px;
+      width: auto;
+    }
+
+    .company-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .container {
+      display: flex;
+      margin-top: 60px;
+      height: calc(100vh - 60px);
+      width: 100%;
+    }
+
+    .sidebar, .sidebar-right {
+      width: 18%;
+      min-width: 180px;
+      max-width: 220px;
+      padding: 10px;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    .sidebar {
+      background-color: #e3f2fd;
+      box-shadow: inset -1px 0 0 #ccc;
+    }
+
+    .sidebar-right {
+      background-color: #fff3e0;
+      box-shadow: inset 1px 0 0 #ccc;
+    }
+
+    .main {
+      width: 64%;
+      overflow-y: auto;
+      padding: 10px;
+      background-color: #ffffff;
+    }
+
+    .instruction-box {
+      background: #fefefe;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .instruction-box textarea {
+      width: 100%;
+      resize: vertical;
+      min-height: 60px;
+      padding: 6px;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .label-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .tag-block {
+      background: #ede7f6;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      min-width: 120px;
+      max-width: 180px;
+    }
+
+    .minmax {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .minmax input {
+      width: 80px;
+      padding: 4px;
+      font-size: 12px;
+    }
+
+    .btn {
+      padding: 6px 10px;
+      font-size: 13px;
+      background-color: #90caf9;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    .btn:hover {
+      background-color: #64b5f6;
+    }
+
+    .btn.add {
+      background-color: #aed581;
+      margin-bottom: 10px;
+    }
+
+    .btn.save {
+      background-color: #81c784;
+    }
+
+    .btn.delete {
+  background-color: #ef9a9a;
+  position: relative;
+  float: right;
+  margin-bottom: 8px;
+}
+
+    .sidebar button {
+      width: 100%;
+      font-size: 12px;
+      padding: 6px;
+      margin-bottom: 4px;
+      border: none;
+      background: #bbdefb;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .sidebar button:hover {
+      background: #90caf9;
+    }
+
+    .active-box {
+      border: 2px solid #1976d2 !important;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <img src="your-logo.png" alt="Company Logo" class="logo" />
+    </div>
+    <div class="company-name">Your Company Name</div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <h3 style="font-size: 14px; margin-bottom: 6px;">Add Label</h3>
+      <ul>
+        <li><button onclick="assignLabel('Temperature')">Temperature</button></li>
+        <li><button onclick="assignLabel('Pressure')">Pressure</button></li>
+        <li><button onclick="assignLabel('Vacuum')">Vacuum</button></li>
+        <li><button onclick="assignLabel('Duration')">Duration</button></li>
+        <li><button onclick="assignLabel('In-process Analysis')">In-process Analysis</button></li>
+       <li><button onclick="assignLabel('Repeat operation')">Repeat operation</button></li>
+        <li><button onclick="assignLabel('Skip Operation')">Skip operation</button></li>
+      </ul>
+    </div>
+
+    <div class="main">
+      <button class="btn add" onclick="addInstructionBox()">+ Add Instruction</button>
+      <div id="instructionContainer"></div>
+    </div>
+
+    <div class="sidebar-right">
+      <h3 style="font-size: 14px; margin-bottom: 6px;">Summary</h3>
+      <ul id="summaryList"></ul>
+    </div>
+  </div>
+
+  <script>
+    let boxCounter = 0;
+    let activeBoxId = null;
+
+    function addInstructionBox() {
+      boxCounter++;
+      const container = document.getElementById('instructionContainer');
+      const box = document.createElement('div');
+      box.className = 'instruction-box';
+      box.id = `box-${boxCounter}`;
+
+      box.innerHTML = `
+  <button class="btn delete" onclick="deleteInstruction('${box.id}')">Delete</button>
+  <textarea placeholder="Enter instruction here..."></textarea>
+  <div class="label-tags" id="tags-${boxCounter}"></div>
+  <button class="btn save" onclick="saveInstruction('${box.id}')">Save</button>
+`;
+
+      box.addEventListener('click', () => setActiveBox(box.id));
+      container.appendChild(box);
+      setActiveBox(box.id);
+    }
+
+    function setActiveBox(id) {
+      document.querySelectorAll('.instruction-box').forEach(b => b.classList.remove('active-box'));
+      const box = document.getElementById(id);
+      box.classList.add('active-box');
+      activeBoxId = id;
+    }
+
+    function assignLabel(label) {
+      if (!activeBoxId) {
+        alert("Click an instruction box to assign a label.");
+        return;
+      }
+      const number = activeBoxId.split('-')[1];
+      const tagContainer = document.getElementById(`tags-${number}`);
+      const existing = Array.from(tagContainer.children).find(el => el.dataset.label === label);
+      if (existing) return;
+
+      const block = document.createElement('div');
+block.className = 'tag-block';
+block.dataset.label = label;
+
+block.innerHTML = `
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <strong>${label}</strong>
+    <button onclick="this.closest('.tag-block').remove()" style="margin-left: 6px; border: none; background: none; cursor: pointer; font-size: 14px; color: red;">×</button>
+  </div>
+`;
+
+      if (["Temperature", "Pressure", "Vacuum", "Duration"].includes(label)) {
+        const minmax = document.createElement('div');
+        minmax.className = 'minmax';
+        minmax.innerHTML = `
+          <input type="text" placeholder="Min" name="${label.toLowerCase()}-min" />
+          <input type="text" placeholder="Max" name="${label.toLowerCase()}-max" />
+        `;
+        block.appendChild(minmax);
+      }
+      if (label === "In-process Analysis") {
+  const dropdown = document.createElement('div');
+  dropdown.className = 'dropdown';
+  dropdown.innerHTML = `
+    <label style="font-size: 12px;">Sample No:</label>
+    <select>
+      <option value="">Select</option>
+      <option value="Sample-001">Sample-001</option>
+      <option value="Sample-002">Sample-002</option>
+      <option value="Sample-003">Sample-003</option>
+    </select>
+  `;
+  block.appendChild(dropdown);
+}
+
+if (label === "Repeat operation") {
+  const repeatBox = document.createElement('div');
+  repeatBox.className = 'minmax';
+  repeatBox.innerHTML = `
+    <label style="font-size: 12px;">Repeat:</label>
+    <input type="number" placeholder="No. of times" min="1" />
+  `;
+  block.appendChild(repeatBox);
+}
+
+      tagContainer.appendChild(block);
+    }
+
+    function deleteInstruction(id) {
+      const box = document.getElementById(id);
+      box.remove();
+      if (activeBoxId === id) activeBoxId = null;
+    }
+
+    function saveInstruction(boxId) {
+      const box = document.getElementById(boxId);
+      const instructionText = box.querySelector('textarea').value.trim();
+      const labels = [];
+
+      box.querySelectorAll('.tag-block').forEach(tag => {
+        const label = tag.dataset.label;
+        const result = { label };
+        const min = tag.querySelector('input[placeholder="Min"]');
+        const max = tag.querySelector('input[placeholder="Max"]');
+        if (min && max) {
+          result.min = min.value;
+          result.max = max.value;
+        }
+        labels.push(result);
+      });
+
+      console.log("✅ Instruction Saved:", {
+        instruction: instructionText,
+        labels
+      });
+
+      alert("Instruction saved successfully!");
+    }
+  </script>
+</body>
+</html>
