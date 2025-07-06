@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phase Operation</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+    }
+
+    .header {
+      background-color: #b3e0ff;
+      color: #003366;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .main-container {
+      display: flex;
+      height: calc(100vh - 60px);
+    }
+
+    .sidebar-left {
+      width: 20%;
+      background-color: #e3f2fd;
+      padding: 20px;
+      border-right: 1px solid #ccc;
+    }
+
+    .sidebar-left h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar-left .info {
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-left button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 14px;
+      background-color: #bbdefb;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .sidebar-left button:hover {
+      background-color: #90caf9;
+    }
+
+    .content {
+      width: 60%;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .instruction-block {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .instruction-block h4 {
+      margin-top: 0;
+      color: #1976d2;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .form-row input,
+    .form-row select {
+      flex: 1;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .button-row {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .button-row button {
+      padding: 8px 14px;
+      font-size: 13px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-skip { background-color: #ef9a9a; color: white; }
+    .btn-weigh { background-color: #81d4fa; color: white; }
+    .btn-repeat { background-color: #ffd54f; color: black; }
+    .btn-search { background-color: #64b5f6; color: white; }
+
+    .sidebar-right {
+      width: 20%;
+      background-color: #fff3e0;
+      padding: 20px;
+      border-left: 1px solid #ccc;
+    }
+
+    .sidebar-right button {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 12px;
+      font-size: 14px;
+      background-color: #aed581;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .sidebar-right button:hover {
+      background-color: #9ccc65;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>Company Logo</div>
+    <div>Company Name</div>
+  </div>
+
+  <div class="main-container">
+    <!-- Left Sidebar -->
+    <div class="sidebar-left">
+      <div class="info">
+        <div><strong>Product:</strong> XYZ-123</div>
+        <div><strong>Stage:</strong> Stage-A</div>
+        <div><strong>Batch No:</strong> BATCH-456</div>
+      </div>
+      <button>Phase Operation-1</button>
+      <button>Phase Operation-2</button>
+      <button>Phase Operation-3</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <!-- Instruction 1 -->
+      <div class="instruction-block">
+        <h4>1. Charge the material into the reactor at 20–30°C in not less than 30 min.</h4>
+        <div class="form-row">
+          <input type="text" placeholder="In process observation">
+          <input type="text" placeholder="Quantity">
+          <select>
+            <option>UOM</option>
+            <option>kg</option>
+            <option>g</option>
+            <option>ml</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <select>
+            <option>Sample Number</option>
+            <option>Sample-001</option>
+            <option>Sample-002</option>
+          </select>
+          <input type="text" placeholder="Test Parameter">
+        </div>
+        <div class="button-row">
+          <button class="btn-skip">Skip</button>
+          <button class="btn-weigh">Weighing</button>
+          <button class="btn-repeat">Repeat</button>
+        </div>
+      </div>
+
+      <!-- Instruction 2 -->
+      <div class="instruction-block">
+        <h4>2. Heat the reaction mass to 50–60°C and observe for homogeneous liquid.</h4>
+        <div class="form-row">
+          <input type="text" placeholder="In process observation (free text)">
+        </div>
+        <div class="button-row">
+          <button class="btn-search">Search</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="sidebar-right">
+      <button>Start / Complete</button>
+      <button>Pause / Resume</button>
+      <button>Submit for Review</button>
+    </div>
+  </div>
+
+</body>
+</html>
